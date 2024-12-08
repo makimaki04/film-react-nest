@@ -14,8 +14,8 @@ export class Schedule {
     seats: number;
     @Prop()
     price: number;
-    @Prop({ type: [String] })
-    taken: string[];
+    @Prop()
+    taken: string;
 }
 
 const scheduleSchema = SchemaFactory.createForClass(Schedule);
