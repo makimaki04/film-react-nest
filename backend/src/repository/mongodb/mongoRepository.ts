@@ -2,7 +2,9 @@ import { Model } from "mongoose";
 import { Film } from "./schemas/schemas";
 import { FilmDTO } from "src/films/dto/films.dto";
 import { InjectModel } from "@nestjs/mongoose";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class MongoFilmsRepository {
     constructor(@InjectModel('Films') private readonly filmsModel: Model<Film>) {}
 

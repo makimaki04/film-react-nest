@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { OrderDTO } from '../dto/order.dto';
-import { MongoFilmsRepository } from 'src/repository/mongoRepository';
+import { MongoFilmsRepository } from 'src/repository/mongodb/mongoRepository';
+import { PostgresRepository } from 'src/repository/postgres/postgresRepository';
 
 @Injectable()
 export class OrderService {
-    constructor(private readonly filmsRepository: MongoFilmsRepository) {}
+    constructor(@Inject('DBRepository') private readonly filmsRepository: PostgresRepository | MongoFilmsRepository) {}
 
     async createOrder(orderDTO: OrderDTO[]) {
         const sortedOrderByFilms: string[] = orderDTO.reduce((acc, ticket) => {
