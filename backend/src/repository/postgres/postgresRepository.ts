@@ -12,13 +12,13 @@ export class PostgresRepository {
         const scheduleArr = film.schedule.map((schedule) => {
             return {
                 ...schedule,
-                taken: schedule.taken ? schedule.taken.split(',') : []
+                taken: schedule.taken ? schedule.taken.split(', ') : []
             }        
         });
 
         const updFilm = {
             ...film,
-            tags: film.tags.split(','),
+            tags: film.tags.split(', '),
             schedule: scheduleArr
         }
         
@@ -44,13 +44,6 @@ export class PostgresRepository {
 
     async findAllFilms(): Promise<FilmDTO[]> {
         try {
-            // const films = await this.filmsRepository.find({
-            //     relations: ['schedule'],
-            //     order: {
-            //       'schedule.daytime': 'ASC', // или 'DESC'
-            //     },
-            //   });
-
             const films = await this.filmsRepository
                                     .createQueryBuilder('film')
                                     .leftJoinAndSelect('film.schedule','schedule')
