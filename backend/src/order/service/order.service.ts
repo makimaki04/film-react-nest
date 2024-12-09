@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { OrderDTO } from '../dto/order.dto';
-import { MongoFilmsRepository } from 'src/repository/mongoRepository';
+import { MongoFilmsRepository } from 'src/repository/mongodb/mongoRepository';
+import { PostgresRepository } from 'src/repository/postgres/postgresRepository';
 
 @Injectable()
 export class OrderService {
-    constructor(private readonly filmsRepository: MongoFilmsRepository) {}
+    constructor(@Inject('DBRepository') private readonly filmsRepository: PostgresRepository | MongoFilmsRepository) {}
 
     async createOrder(orderDTO: OrderDTO[]) {
         const sortedOrderByFilms: string[] = orderDTO.reduce((acc, ticket) => {
@@ -16,6 +17,10 @@ export class OrderService {
         }, []);
 
         const films = await this.filmsRepository.findFilmsByIds(sortedOrderByFilms);
+
+        if (films.length === 0) {
+            throw new HttpException('No films found for the provided IDs', HttpStatus.NOT_FOUND);
+        }
 
         const orderPesponse: OrderDTO[] = []; 
         

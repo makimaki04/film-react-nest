@@ -14,7 +14,7 @@ export class Schedule {
     seats: number;
     @Prop()
     price: number;
-    @Prop({ type: [String] })
+    @Prop()
     taken: string[];
 }
 
