@@ -18,6 +18,10 @@ export class OrderService {
 
         const films = await this.filmsRepository.findFilmsByIds(sortedOrderByFilms);
 
+        if (films.length === 0) {
+            throw new HttpException('No films found for the provided IDs', HttpStatus.NOT_FOUND);
+        }
+
         const orderPesponse: OrderDTO[] = []; 
         
         for(let i = 0; i < orderDTO.length; i++) {

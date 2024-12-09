@@ -9,34 +9,19 @@ export class PostgresRepository {
     constructor(@InjectRepository(Film) private readonly filmsRepository: Repository<Film>) {}
 
     static entityToDTO(film: Film) {
-        const scheduleArr = film.schedule.map((schedule) => {
-            return {
-                ...schedule,
-                taken: schedule.taken ? schedule.taken.split(', ') : []
-            }        
-        });
-
         const updFilm = {
             ...film,
-            tags: film.tags.split(', '),
-            schedule: scheduleArr
+            tags: film.tags.split(', ')
         }
         
         return FilmDTO.fromProductEntity(updFilm);
     }
 
     static DTOtoEntity(film: FilmDTO) {
-        const scheduleArr = film.schedule.map((schedule) => {
-            return {
-                ...schedule,
-                taken: schedule.taken.join(', ')
-            }
-        });
 
         const updFilm = {
             ...film,
-            tags: film.tags.join(', '),
-            schedule: scheduleArr
+            tags: film.tags.join(', ')
         }
 
         return updFilm;
