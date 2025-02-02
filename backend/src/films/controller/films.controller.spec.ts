@@ -1,18 +1,35 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
+
 import { FilmsController } from './films.controller';
+import { FilmsService } from '../service/films.service';
 
 describe('FilmsController', () => {
-  let controller: FilmsController;
+  let filmsController: FilmsController;
+  let filmsService: FilmsService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const moduleRef = await Test.createTestingModule({
       controllers: [FilmsController],
-    }).compile();
-
-    controller = module.get<FilmsController>(FilmsController);
+      providers: [FilmsService],
+    })
+      .overrideProvider(FilmsService)
+      .useValue({
+        getAllFilms: jest.fn(),
+        getFilmById: jest.fn(),
+      })
+      .compile();
+    filmsController = moduleRef.get<FilmsController>(FilmsController);
+    filmsService = moduleRef.get<FilmsService>(FilmsService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('.findAll() should call GetAllFilms method', () => {
+    filmsController.GetAllFilms();
+    expect(filmsService.getAllFilms).toHaveBeenCalled();
+  });
+
+  it('.findSchedule() should call GetFilmById method', () => {
+    const item = 'ID';
+    filmsController.GetFilmById(item);
+    expect(filmsService.getFilmById).toHaveBeenCalledWith(item);
   });
 });
