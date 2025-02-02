@@ -16,13 +16,11 @@ jobs:
 
     steps:
     - name: set lower case owner name
-      run: /
-        echo "REPO=${OWNER,,}" >>${GITHUB_ENV}
+      run: echo "REPO=${OWNER,,}" >> $GITHUB_ENV
       env:
         OWNER: '${{ github.repository_owner }}'
     
-    - run: /
-        echo "repo ${REPO}"
+    - run: echo "repo ${REPO}"
 
     - name: check repo
       uses: actions/checkout@v4
