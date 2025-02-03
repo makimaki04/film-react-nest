@@ -1,19 +1,32 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { OrderController } from './order.controller';
+import { OrderService } from '../service/order.service';
+import { OrderReqDTO } from '../dto/order.dto';
 
 
-describe('OrderController', () => {
-  let controller: OrderController;
+describe('OrdersController', () => {
+  let orderController: OrderController
+  let orderService: OrderService
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const moduleRef = await Test.createTestingModule({
       controllers: [OrderController],
-    }).compile();
-
-    controller = module.get<OrderController>(OrderController);
+      providers: [OrderService],
+    })
+      .overrideProvider(OrderService)
+      .useValue({
+        createOrder: jest.fn(),
+      })
+      .compile();
+      orderController = moduleRef.get<OrderController>(OrderController);
+      orderService = moduleRef.get<OrderService>(OrderService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('.create() should call create method', () => {
+    const item = new OrderReqDTO();
+
+    orderController.createOrder(item);
+
+    expect(orderService.createOrder).toHaveBeenCalledWith(item.tickets);
   });
 });

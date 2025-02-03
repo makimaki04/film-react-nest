@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-create database prac
+create database films
     with owner prac;
 
 create table public.films

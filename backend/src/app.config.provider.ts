@@ -11,13 +11,21 @@ export const ConfigProvider = {
             username: process.env.DATABASE_USERNAME,
             password: process.env.DATABASE_PASSWORD,
             dbname: process.env.DATABASE_NAME,
-        }
+        },
+        logger: process.env.logger,
     },
 }
 
 export interface AppConfig {
     database: AppConfigDatabase
+    logger: LoggerConfig
 }
+
+export enum LoggerConfig{
+    dev = 'dev',
+    json = 'json',
+    tskv = 'tskv',
+  }
 
 export interface AppConfigDatabase {
     driver: string
