@@ -10,7 +10,7 @@ services:
             - .env
         networks:
             - internal
-        
+
     pgadmin:
         image: dpage/pgadmin4
         container_name: pgadmin
@@ -63,7 +63,7 @@ services:
         networks:
             - internal
 
-    
+
 volumes:
     pgadmin:
     db:

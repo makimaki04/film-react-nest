@@ -1,4 +1,6 @@
 # FILM!
+## Ссылка на задеплоенное приложение:
+http://maki.nomorepartiesco.ru/
 
 ## Установка
 
